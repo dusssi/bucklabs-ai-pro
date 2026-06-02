@@ -58,7 +58,7 @@ function CourseDetail() {
         <div className="mt-12">
           <h2 className="font-display text-3xl mb-6">What you'll cover</h2>
           <div className="flex flex-wrap gap-2">
-            {course.tags.map((t) => (
+            {course.tags.map((t: string) => (
               <span key={t} className="px-3 py-1.5 rounded-full bg-card ring-1 ring-white/5 text-sm">{t}</span>
             ))}
           </div>
