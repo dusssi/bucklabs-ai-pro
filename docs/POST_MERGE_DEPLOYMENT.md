@@ -1,5 +1,10 @@
 # BUCKLABS AI — Post-merge deployment verification
 
+> Historical first-pass snapshot. The [PR #2 final review](PR2_FINAL_REVIEW.md)
+> supersedes its access, test-count, and verifier-scope findings: Vercel access
+> now works, but the domain-owning project links to the wrong repository. No live
+> workflow is upgraded to passed by that management-plane inspection.
+
 **Date:** 2026-10-18 (UTC)  
 **Final classification:** **BLOCKED**  
 **Repository:** https://github.com/dusssi/bucklabs-ai-pro  

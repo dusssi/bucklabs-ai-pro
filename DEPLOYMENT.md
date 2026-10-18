@@ -9,6 +9,13 @@ execution evidence and blocked live checks. Previous readiness reports do not pr
 
 ## 1. Inspect the existing Vercel project first
 
+**Latest review:** Vercel access now works. The existing `bucklabsai` project owns
+`bucklabsai.vercel.app`, but currently links to **`dusssi/Buckklabs-AI`**, not this
+repository. Do not redeploy that legacy source or import a duplicate project.
+See [PR2_FINAL_REVIEW.md](docs/PR2_FINAL_REVIEW.md) for the observed deployment,
+review findings, and coordinated owner cutover sequence. Prepare settings and
+merge the approved fix before reconnecting Git, which may trigger a build.
+
 1. In Vercel, select the existing team/project that owns `bucklabsai.vercel.app`.
    Do not import a second project or reassign its domain.
 2. Under **Settings → Git**, verify repository `dusssi/bucklabs-ai-pro` and
@@ -71,10 +78,15 @@ bun run build
 bun run verify:deployment
 ```
 
-`verify:deployment` validates the manifest, Node function, asset presence,
-privileged-reference scan, and 19 local SSR HTML responses. It blocks external
-transport and performs no database writes; it does not test browser hydration,
-email, production credentials, durable persistence, or real-user RLS isolation.
+`verify:deployment` validates the manifest, Node function, referenced assets,
+privileged-reference scan, and 19 route-specific SSR contracts (two private
+routes check loading shells only). It also checks three missing catalog routes,
+server-function registration/method/auth/input guards, and a deterministic Tutor
+RPC round-trip. `nitro.config.ts` preserves `vercel.json` security headers in the
+generated manifest and SSR responses; the verifier checks parity. External
+transport is blocked and no database writes occur. This does not test browser
+hydration, email, production credentials, durable persistence, or real-user RLS
+isolation.
 
 ## 4. Supabase Auth URLs — only after verifying the domain
 
