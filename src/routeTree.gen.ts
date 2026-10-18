@@ -12,15 +12,21 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LearningRouteImport } from './routes/learning'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareerRouteImport } from './routes/career'
+import { Route as AiTutorRouteImport } from './routes/ai-tutor'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PracticeProblemIdRouteImport } from './routes/practice.$problemId'
+import { Route as LearningPathIdRouteImport } from './routes/learning.$pathId'
 import { Route as CoursesCourseIdRouteImport } from './routes/courses.$courseId'
 
 const TermsRoute = TermsRouteImport.update({
@@ -38,14 +44,29 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningRoute = LearningRouteImport.update({
+  id: '/learning',
+  path: '/learning',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
@@ -73,6 +94,11 @@ const CareerRoute = CareerRouteImport.update({
   path: '/career',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiTutorRoute = AiTutorRouteImport.update({
+  id: '/ai-tutor',
+  path: '/ai-tutor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -83,6 +109,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PracticeProblemIdRoute = PracticeProblemIdRouteImport.update({
+  id: '/$problemId',
+  path: '/$problemId',
+  getParentRoute: () => PracticeRoute,
+} as any)
+const LearningPathIdRoute = LearningPathIdRouteImport.update({
+  id: '/$pathId',
+  path: '/$pathId',
+  getParentRoute: () => LearningRoute,
+} as any)
 const CoursesCourseIdRoute = CoursesCourseIdRouteImport.update({
   id: '/$courseId',
   path: '/$courseId',
@@ -92,107 +128,147 @@ const CoursesCourseIdRoute = CoursesCourseIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ai-tutor': typeof AiTutorRoute
   '/career': typeof CareerRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/learning': typeof LearningRouteWithChildren
   '/login': typeof LoginRoute
+  '/practice': typeof PracticeRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/learning/$pathId': typeof LearningPathIdRoute
+  '/practice/$problemId': typeof PracticeProblemIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ai-tutor': typeof AiTutorRoute
   '/career': typeof CareerRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/learning': typeof LearningRouteWithChildren
   '/login': typeof LoginRoute
+  '/practice': typeof PracticeRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/learning/$pathId': typeof LearningPathIdRoute
+  '/practice/$problemId': typeof PracticeProblemIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/ai-tutor': typeof AiTutorRoute
   '/career': typeof CareerRoute
   '/contact': typeof ContactRoute
   '/courses': typeof CoursesRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/learning': typeof LearningRouteWithChildren
   '/login': typeof LoginRoute
+  '/practice': typeof PracticeRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/learning/$pathId': typeof LearningPathIdRoute
+  '/practice/$problemId': typeof PracticeProblemIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/ai-tutor'
     | '/career'
     | '/contact'
     | '/courses'
     | '/dashboard'
     | '/forgot-password'
+    | '/learning'
     | '/login'
+    | '/practice'
     | '/privacy'
+    | '/profile'
     | '/register'
     | '/reset-password'
     | '/terms'
     | '/courses/$courseId'
+    | '/learning/$pathId'
+    | '/practice/$problemId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/ai-tutor'
     | '/career'
     | '/contact'
     | '/courses'
     | '/dashboard'
     | '/forgot-password'
+    | '/learning'
     | '/login'
+    | '/practice'
     | '/privacy'
+    | '/profile'
     | '/register'
     | '/reset-password'
     | '/terms'
     | '/courses/$courseId'
+    | '/learning/$pathId'
+    | '/practice/$problemId'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/ai-tutor'
     | '/career'
     | '/contact'
     | '/courses'
     | '/dashboard'
     | '/forgot-password'
+    | '/learning'
     | '/login'
+    | '/practice'
     | '/privacy'
+    | '/profile'
     | '/register'
     | '/reset-password'
     | '/terms'
     | '/courses/$courseId'
+    | '/learning/$pathId'
+    | '/practice/$problemId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AiTutorRoute: typeof AiTutorRoute
   CareerRoute: typeof CareerRoute
   ContactRoute: typeof ContactRoute
   CoursesRoute: typeof CoursesRouteWithChildren
   DashboardRoute: typeof DashboardRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LearningRoute: typeof LearningRouteWithChildren
   LoginRoute: typeof LoginRoute
+  PracticeRoute: typeof PracticeRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
+  ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
@@ -221,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -228,11 +311,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning': {
+      id: '/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof LearningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/forgot-password': {
@@ -270,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-tutor': {
+      id: '/ai-tutor'
+      path: '/ai-tutor'
+      fullPath: '/ai-tutor'
+      preLoaderRoute: typeof AiTutorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -283,6 +387,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/practice/$problemId': {
+      id: '/practice/$problemId'
+      path: '/$problemId'
+      fullPath: '/practice/$problemId'
+      preLoaderRoute: typeof PracticeProblemIdRouteImport
+      parentRoute: typeof PracticeRoute
+    }
+    '/learning/$pathId': {
+      id: '/learning/$pathId'
+      path: '/$pathId'
+      fullPath: '/learning/$pathId'
+      preLoaderRoute: typeof LearningPathIdRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/courses/$courseId': {
       id: '/courses/$courseId'
@@ -305,16 +423,44 @@ const CoursesRouteChildren: CoursesRouteChildren = {
 const CoursesRouteWithChildren =
   CoursesRoute._addFileChildren(CoursesRouteChildren)
 
+interface LearningRouteChildren {
+  LearningPathIdRoute: typeof LearningPathIdRoute
+}
+
+const LearningRouteChildren: LearningRouteChildren = {
+  LearningPathIdRoute: LearningPathIdRoute,
+}
+
+const LearningRouteWithChildren = LearningRoute._addFileChildren(
+  LearningRouteChildren,
+)
+
+interface PracticeRouteChildren {
+  PracticeProblemIdRoute: typeof PracticeProblemIdRoute
+}
+
+const PracticeRouteChildren: PracticeRouteChildren = {
+  PracticeProblemIdRoute: PracticeProblemIdRoute,
+}
+
+const PracticeRouteWithChildren = PracticeRoute._addFileChildren(
+  PracticeRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AiTutorRoute: AiTutorRoute,
   CareerRoute: CareerRoute,
   ContactRoute: ContactRoute,
   CoursesRoute: CoursesRouteWithChildren,
   DashboardRoute: DashboardRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  LearningRoute: LearningRouteWithChildren,
   LoginRoute: LoginRoute,
+  PracticeRoute: PracticeRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
+  ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
@@ -322,3 +468,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

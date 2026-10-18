@@ -79,10 +79,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "BUCKLABS E-Learning — AI-powered career platform" },
-      { name: "description", content: "AI-powered learning & career development for MCA, BCA, and Engineering students. Master the stack, polish your profile, ace interviews." },
+      {
+        name: "description",
+        content:
+          "AI-powered learning & career development for MCA, BCA, and Engineering students. Master the stack, polish your profile, ace interviews.",
+      },
       { name: "author", content: "BUCKLABS" },
       { property: "og:title", content: "BUCKLABS E-Learning" },
-      { property: "og:description", content: "AI-powered learning & career development for the next generation of engineers." },
+      {
+        property: "og:description",
+        content: "AI-powered learning & career development for the next generation of engineers.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@bucklabs" },

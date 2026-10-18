@@ -1,45 +1,73 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { z } from "zod";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { AuthShell, AuthField } from "@/components/auth/AuthShell";
+import { resetPasswordSchema } from "@/lib/validation";
+import { updateUserPassword } from "@/services/platform-store";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: "Reset password — BUCKLABS" }] }),
+  head: () => ({ meta: [{ title: "Set New Password — BUCKLABS AI" }] }),
   component: ResetPage,
 });
 
 function ResetPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const parsed = z
-      .object({ password: z.string().min(8).max(72), confirm: z.string() })
-      .refine((d) => d.password === d.confirm, { message: "Passwords don't match" })
-      .safeParse({ password: fd.get("password"), confirm: fd.get("confirm") });
+    const parsed = resetPasswordSchema.safeParse({
+      password: fd.get("password"),
+      confirm: fd.get("confirm"),
+    });
     if (!parsed.success) {
       toast.error(parsed.error.issues[0].message);
       return;
     }
+
     setLoading(true);
-    const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
-    setLoading(false);
-    if (error) {
-      toast.error(error.message);
-      return;
+    try {
+      await updateUserPassword(parsed.data.password);
+      toast.success("Password updated successfully.");
+      navigate({ to: "/login" });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not update password.");
+    } finally {
+      setLoading(false);
     }
-    toast.success("Password updated.");
-    navigate({ to: "/login" });
   };
+
   return (
-    <AuthShell subtitle="Reset" title="Set a new password." footer={null}>
-      <form onSubmit={onSubmit} className="space-y-4">
-        <AuthField label="New password" name="password" type="password" required />
-        <AuthField label="Confirm password" name="confirm" type="password" required />
-        <button disabled={loading} className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:scale-[1.02] transition-transform disabled:opacity-60">
+    <AuthShell
+      subtitle="Security Update"
+      title="Set a new password."
+      footer={
+        <Link to="/login" className="text-accent font-bold hover:underline">
+          &larr; Return to sign in
+        </Link>
+      }
+    >
+      <form onSubmit={onSubmit} className="space-y-4" noValidate>
+        <AuthField
+          label="New password"
+          name="password"
+          type="password"
+          required
+          placeholder="At least 8 characters"
+        />
+        <AuthField
+          label="Confirm password"
+          name="confirm"
+          type="password"
+          required
+          placeholder="Repeat new password"
+        />
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full px-6 py-3.5 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-colors disabled:opacity-60"
+        >
           {loading ? "Updating..." : "Update password"}
         </button>
       </form>
