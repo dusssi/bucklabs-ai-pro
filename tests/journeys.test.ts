@@ -1,4 +1,18 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+// These are offline store-contract tests, not browser E2E or PostgreSQL RLS tests.
+// Simulate a transport outage explicitly so a clean checkout needs no credentials
+// and can never register accounts or write records in a real Supabase project.
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: new Proxy(
+    {},
+    {
+      get() {
+        throw new TypeError("fetch failed: isolated offline journey test");
+      },
+    },
+  ),
+}));
 import {
   enrollInCourse,
   getCurrentAuthUser,
@@ -17,12 +31,12 @@ import {
   upsertPracticeAttempt,
 } from "@/services/platform-store";
 
-describe("Integration & E2E Journey Tests — Auth, Persistence & Security Isolation", () => {
+describe("Offline Store Contracts — Auth, Persistence & Ownership Isolation", () => {
   beforeEach(() => {
     resetLocalStateForTesting();
   });
 
-  it("Journey 1 & 2: Register -> Onboard -> Enroll -> Complete Modules -> Dashboard reflects real data", async () => {
+  it("Offline contract: registration, onboarding, module completion, and derived metrics", async () => {
     // 1. Register new learner
     const { user } = await registerUser({
       fullName: "Vikram Aditya",
@@ -30,6 +44,7 @@ describe("Integration & E2E Journey Tests — Auth, Persistence & Security Isola
       password: "StrongPassword123!",
     });
     expect(user.email).toBe("vikram@bucklabs.edu");
+    expect(user.authMode).toBe("local_fallback");
 
     // 2. Initial dashboard has 0 fabricated statistics
     const initialDash = await getDashboardSnapshot(user.id);
@@ -71,7 +86,7 @@ describe("Integration & E2E Journey Tests — Auth, Persistence & Security Isola
     expect(dashAfterCourse.enrollments[0].progress).toBe(33);
   });
 
-  it("Journey 3, 4 & 5: Practice Bookmark -> Update Status & Notes -> Logout -> Login -> Verify Persistence", async () => {
+  it("Offline contract: bookmarks and reported attempts survive test-store logout/login", async () => {
     const { user } = await registerUser({
       fullName: "Meera Krishnan",
       email: "meera@bucklabs.edu",
@@ -134,7 +149,7 @@ describe("Integration & E2E Journey Tests — Auth, Persistence & Security Isola
     expect(snapshot.recommendedNextStep.href).toBe("/practice/coin-change-dp");
   });
 
-  it("Journey 6: Enforces Row-Level Access Control — prevents User B from reading or modifying User A's records", async () => {
+  it("Offline contract: application ownership guard rejects another test user's records", async () => {
     const { user: userA } = await registerUser({
       fullName: "User A",
       email: "usera@bucklabs.edu",

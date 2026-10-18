@@ -54,16 +54,28 @@ On project `kyjgpywuoatbhjtvkmax`, the following authentication settings are con
   - `https://*.e2b.app/**`
   - `https://*.vercel.app/**`
 
-When a custom production domain is attached in Vercel, update **Site URL** in **Supabase Dashboard -> Authentication -> URL Configuration** to match the primary production domain.
+**Post-merge inspection (2026-10-18):** Site URL is still `http://localhost:3000`;
+this is not production-ready. The broad allowlist above describes the inspected
+state, not a recommended production configuration. No Auth settings were changed
+because Vercel domain ownership/reachability could not be verified from this session.
+After verifying the existing Vercel project and domain, set Site URL to
+`https://bucklabsai.vercel.app` and allow exactly
+`https://bucklabsai.vercel.app/dashboard` and
+`https://bucklabsai.vercel.app/reset-password`. Inventory approved local/preview
+clients and replace global wildcard redirects with exact callback URLs; prefer
+separate Supabase projects for production and development. See `DEPLOYMENT.md`.
 
 ---
 
 ## 5. Vercel Build & Deployment Settings
 
-- **Framework Preset:** Other / Vite (TanStack Start SSR)
-- **Install Command:** `bun install`
+- **Framework Preset:** Other (TanStack Start SSR with explicit Nitro `vercel` preset)
+- **Install Command:** `bun install` (or `bun install --frozen-lockfile` for reproducibility)
 - **Build Command:** `bun run build`
-- **Node.js Runtime Version:** `20.x` or `22.x`
+- **Output Directory Override:** Disabled; adapter emits Vercel Build Output API v3 in `.vercel/output`, not a static `dist/client` deployment
+- **Post-build Verification:** `bun run verify:deployment`
+- **Node.js Runtime Version:** `22.x` (verified locally)
+- **AI Provider Caveat:** The current Tutor and Career Lab are deterministic; `OPENAI_API_KEY` and `AI_MODEL_ID` are reserved configuration, not a working live-provider integration.
 - **Security Headers (`vercel.json`):**
   - `X-Content-Type-Options: nosniff`
   - `Referrer-Policy: strict-origin-when-cross-origin`

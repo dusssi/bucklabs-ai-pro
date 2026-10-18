@@ -1,5 +1,10 @@
 # BUCKLABS AI — Verification & Automated Test Report
 
+> Historical pre-merge audit report. For fresh post-merge results, reproduced
+> clean-checkout failures, Vercel SSR packaging fixes, and blocked production
+> workflows, see [POST_MERGE_DEPLOYMENT.md](POST_MERGE_DEPLOYMENT.md).
+> The journey suite is an offline store-contract suite, not live browser E2E or PostgreSQL RLS proof.
+
 **Repository:** `https://github.com/dusssi/bucklabs-ai-pro`  
 **Branch:** `arena/62a1c1c3-bucklabs-ai-pro`  
 **Execution Date:** 2026-10-18

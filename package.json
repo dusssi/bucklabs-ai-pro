@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "verify:deployment": "node scripts/verify-vercel-output.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {
