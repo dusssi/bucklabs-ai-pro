@@ -1,5 +1,9 @@
 # BUCKLABS AI — Controlled Beta Readiness Report
 
+> Historical pre-merge assessment, not production deployment evidence. Fresh
+> post-merge verification is **BLOCKED**; see
+> [POST_MERGE_DEPLOYMENT.md](POST_MERGE_DEPLOYMENT.md) for actual results and owner steps.
+
 **Project:** BUCKLABS AI (`https://github.com/dusssi/bucklabs-ai-pro`)  
 **Release Target:** Controlled Beta  
 **Supabase Project:** `kyjgpywuoatbhjtvkmax` (`ACTIVE_HEALTHY`, `ap-northeast-1`)  

@@ -1,4 +1,18 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+// These are offline store-contract tests, not browser E2E or PostgreSQL RLS tests.
+// Simulate a transport outage explicitly so a clean checkout needs no credentials
+// and can never register accounts or write records in a real Supabase project.
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: new Proxy(
+    {},
+    {
+      get() {
+        throw new TypeError("fetch failed: isolated offline journey test");
+      },
+    },
+  ),
+}));
 import {
   enrollInCourse,
   getCurrentAuthUser,
@@ -17,7 +31,7 @@ import {
   upsertPracticeAttempt,
 } from "@/services/platform-store";
 
-describe("Integration & E2E Journey Tests — Auth, Persistence & Security Isolation", () => {
+describe("Offline Store Contracts — Auth, Persistence & Ownership Isolation", () => {
   beforeEach(() => {
     resetLocalStateForTesting();
   });
